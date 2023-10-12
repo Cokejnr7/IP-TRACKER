@@ -11,7 +11,7 @@
     --Very-Dark-Gray: hsl(0, 0%, 17%);
     --Dark-Gray: hsl(0, 0%, 59%);
     --Black: #000;
-    --White: #ffff;
+    --White: #FFFFFF;
     --font-Rubik: 'Rubik', sans-serif;
     --input-radius: .5rem;
 }
@@ -33,6 +33,11 @@ h1 {
     font-weight: 500;
 }
 
+li {
+    list-style-type: none;
+}
+
+/*######------------------------------------------------------------ ip container ------------------------------------------------#######*/
 div.ip {
     /* background-color: azure; */
     background-image: url("images/pattern-bg-mobile.png");
@@ -44,8 +49,42 @@ div.ip {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
+    min-width: 22rem;
+    position: relative;
 }
+
+.result {
+    background-color: var(--White);
+    position: absolute;
+    width: 80vw;
+    top: 80%;
+    min-width: 20rem;
+    border-radius: var(--input-radius);
+}
+
+.result ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.label {
+    color: var(--Dark-Gray);
+    font-size: 1rem;
+}
+
+.data {
+    font-size: 1.5rem;
+}
+
+.result>ul li {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+/*-------------------- .ip-form  ------------------*/
 
 .ip-form {
     display: flex;
@@ -70,25 +109,38 @@ div.ip {
 .ip-form>input {
     border-top-left-radius: var(--input-radius);
     border-bottom-left-radius: var(--input-radius);
-    padding-left: 2.5rem;
-    width: 40vw;
+    padding-left: .5rem;
+    width: 70vw;
+    min-width: clamp(18rem, 70vw, 45rem);
     font-family: var(--font-Rubik);
+
 }
 
 .ip-form>input::placeholder {
     color: var(--Dark-Gray);
-    font-size: 18px;
+    font-size: 1rem;
 }
 
 .ip-form>button i {
     color: var(--White);
 }
 
+/*########------------------------------------------------------ end of ip ----------------------------------------------------##########*/
+
 
 @media screen and (min-width: 780px) {
     div.ip {
         background-image: url("images/pattern-bg-desktop.png");
         height: 40vh;
+    }
+
+    .ip-form>input {
+        width: 40vw;
+        padding-left: 2.5rem;
+    }
+
+    .ip-form>input::placeholder {
+        font-size: 1.125rem;
     }
 }
 
