@@ -16,8 +16,9 @@
     --input-radius: .5rem;
 }
 
-htmL {
-    height: 100%;
+html, body {
+    min-height: 100% !important;
+    height: 100vh;
 }
 
 body {
@@ -43,7 +44,7 @@ div.ip {
     background-image: url("images/pattern-bg-mobile.png");
     background-repeat: no-repeat;
     width: 100%;
-    height: 45vh;
+    height: 45%;
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -57,28 +58,35 @@ div.ip {
 .result {
     background-color: var(--White);
     position: absolute;
-    width: 80vw;
+    width: 80%;
     top: 80%;
     min-width: 20rem;
     border-radius: var(--input-radius);
-}
-
-.result ul {
+    display: flex;
+    justify-content: center;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+
+.label, .data {
+    text-align: center;
 }
 
 .label {
     color: var(--Dark-Gray);
-    font-size: 1rem;
+    font-size: clamp(.8rem, 2.2vw, 1rem);
+    font-weight: 500;
 }
 
 .data {
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 3vw, 1.8rem);
+    font-weight: 500;
 }
 
-.result>ul li {
+.result li {
     display: flex;
     flex-direction: column;
     gap: .5rem;
@@ -99,7 +107,7 @@ div.ip {
 }
 
 .ip-form>button {
-    padding: .75rem 1.2rem;
+    padding: .75rem 1.5rem;
     border-top-right-radius: var(--input-radius);
     border-bottom-right-radius: var(--input-radius);
     background-color: var(--Black);
@@ -110,10 +118,12 @@ div.ip {
     border-top-left-radius: var(--input-radius);
     border-bottom-left-radius: var(--input-radius);
     padding-left: .5rem;
-    width: 70vw;
+    width: 70%;
     min-width: clamp(18rem, 70vw, 45rem);
     font-family: var(--font-Rubik);
-
+    color: var(--Very-Dark-Gray);
+    font-size: 1.2rem;
+    font-weight: 400;
 }
 
 .ip-form>input::placeholder {
@@ -128,21 +138,61 @@ div.ip {
 /*########------------------------------------------------------ end of ip ----------------------------------------------------##########*/
 
 
+
+/*#############-------------------------------------- map ------------------------------------------------########## */
+.map {
+    min-height: 55%;
+    width: 100%;
+    background-color: #efefef;
+}
+
+
 @media screen and (min-width: 780px) {
     div.ip {
         background-image: url("images/pattern-bg-desktop.png");
-        height: 40vh;
+        height: 40%;
     }
 
     .ip-form>input {
-        width: 40vw;
+        width: 40%;
         padding-left: 2.5rem;
     }
 
     .ip-form>input::placeholder {
         font-size: 1.125rem;
     }
+
+    .result {
+        top: 82%;
+        padding: 2rem;
+    }
+
+    .result {
+        flex-direction: row;
+    }
+
+    .result li {
+        flex-grow: 1;
+
+    }
+
+    .result li:not(:last-child) {
+        border-right: .1px solid var(--Dark-Gray);
+        padding-right: 1rem;
+    }
+
+    .map {
+        min-height: 60%;
+    }
+
+    .label, .data {
+        text-align: left;
+    }
 }
+
+
+
+
 
 
 
