@@ -17,26 +17,41 @@ L.marker([51.5, -0.09])
   .bindPopup("A pretty CSS popup.<br> Easily customizable.")
   .openPopup();
 
-// document.addEventListener("DOMContentLoaded", displayLocation);
+document.addEventListener("DOMContentLoaded", displayLocation);
 ipForm.addEventListener("submit", displayLocation);
 
 async function displayLocation(e) {
   e.preventDefault();
-  console.log(isIpOrDomain(ipInput.value));
+  const chars = isIpOrDomain(ipInput.value);
+  const type = e.currentTarget.nodeName === "#document" ? "reload" : "search";
+
+  if (type === "search") {
+    if (chars === "") {
+      alert("Please enter a domain or IP address");
+      return;
+    }
+  }
+
+  const {
+    location: { region, timezone },
+    isp,
+    ip,
+  } = await getLocation(chars);
+
+  const geoData = [ip, region, timezone, isp];
+  createSpan(geoData, type);
 
   ipInput.value = "";
-  //   const {
-  //     location: { region, timezone },
-  //     isp,
-  //     ip,
-  //   } = await getLocation();
-
-  //   const geoData = [ip, region, timezone, isp];
-  //   createSpan(geoData);
 }
 
 // populate UI with fetced data
-function createSpan(geoData) {
+function createSpan(geoData, type) {
+  if (type === "search") {
+    document.querySelectorAll(".result li").forEach((li) => {
+      li.lastElementChild.remove();
+    });
+  }
+
   geoData.forEach((data, index) => {
     const dataSpan = document.createElement("span");
     dataSpan.classList.add("data");
@@ -72,7 +87,7 @@ function isValidDomainName(name) {
 }
 
 // fetches location data
-async function getLocation(query = "") {
+async function getLocation(query) {
   try {
     const response = await fetch(
       `https://geo.ipify.org/api/v2/country?apiKey=${API_KEY}` + query
