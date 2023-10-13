@@ -84,6 +84,7 @@ div.ip {
 .data {
     font-size: clamp(1rem, 3vw, 1.8rem);
     font-weight: 500;
+    color: var(--Very-Dark-Gray);
 }
 
 .result li {
