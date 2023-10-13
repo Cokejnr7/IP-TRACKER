@@ -5,17 +5,14 @@ const ipButton = document.querySelector("#locateBtn");
 
 // leaflet
 
-var map = L.map("map").setView([51.505, -0.09], 13);
+const map = L.map("map").setView([0, 0], 2);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-L.marker([51.5, -0.09])
-  .addTo(map)
-  .bindPopup("A pretty CSS popup.<br> Easily customizable.")
-  .openPopup();
+const marker = L.marker([0, 0]).addTo(map);
 
 document.addEventListener("DOMContentLoaded", displayLocation);
 ipForm.addEventListener("submit", displayLocation);
@@ -32,13 +29,12 @@ async function displayLocation(e) {
     }
   }
 
-  const {
-    location: { region, timezone },
-    isp,
-    ip,
-  } = await getLocation(chars);
+  const { ip, isp, location } = await getLocation(chars);
 
-  const geoData = [ip, region, timezone, isp];
+  marker.setLatLng([location.lat, location.lng]).update();
+  map.setView([location.lat, location.lng], 13);
+
+  const geoData = [ip, location.region, location.timezone, isp];
   createSpan(geoData, type);
 
   ipInput.value = "";
@@ -90,7 +86,7 @@ function isValidDomainName(name) {
 async function getLocation(query) {
   try {
     const response = await fetch(
-      `https://geo.ipify.org/api/v2/country?apiKey=${API_KEY}` + query
+      `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY}` + query
     );
     if (!response.ok) {
       throw new Error("something went wrong " + response.status);
