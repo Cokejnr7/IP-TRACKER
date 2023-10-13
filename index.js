@@ -1,4 +1,7 @@
 const API_KEY = "at_kaYMs8Q52qdnYUoi3KuwFLI2GvW8J";
+const ipForm = document.querySelector(".ip-form");
+const ipInput = document.querySelector("#locateInput");
+const ipButton = document.querySelector("#locateBtn");
 
 // leaflet
 
@@ -15,16 +18,21 @@ L.marker([51.5, -0.09])
   .openPopup();
 
 // document.addEventListener("DOMContentLoaded", displayLocation);
+ipForm.addEventListener("submit", displayLocation);
 
-async function displayLocation() {
-  const {
-    location: { region, timezone },
-    isp,
-    ip,
-  } = await getLocation();
+async function displayLocation(e) {
+  e.preventDefault();
+  console.log(isIpOrDomain(ipInput.value));
 
-  const geoData = [ip, region, timezone, isp];
-  createSpan(geoData);
+  ipInput.value = "";
+  //   const {
+  //     location: { region, timezone },
+  //     isp,
+  //     ip,
+  //   } = await getLocation();
+
+  //   const geoData = [ip, region, timezone, isp];
+  //   createSpan(geoData);
 }
 
 // populate UI with fetced data
@@ -37,11 +45,19 @@ function createSpan(geoData) {
   });
 }
 
+function isIpOrDomain(chars) {
+  const str = chars.split(".");
+  if (!isNaN(str[0])) {
+    return `&ipAddress=${chars}`;
+  }
+  return `&domain=${chars}`;
+}
+
 // fetches location data
-async function getLocation() {
+async function getLocation(query = "") {
   try {
     const response = await fetch(
-      `https://geo.ipify.org/api/v2/country?apiKey=${API_KEY}`
+      `https://geo.ipify.org/api/v2/country?apiKey=${API_KEY}` + query
     );
     if (!response.ok) {
       throw new Error("something went wrong " + response.status);
