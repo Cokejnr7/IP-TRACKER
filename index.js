@@ -45,12 +45,30 @@ function createSpan(geoData) {
   });
 }
 
-function isIpOrDomain(chars) {
-  const str = chars.split(".");
-  if (!isNaN(str[0])) {
-    return `&ipAddress=${chars}`;
+function isIpOrDomain(str) {
+  let format;
+  switch (true) {
+    case isValidIPv4(str):
+      format = `&ipAddress=${str}`;
+      break;
+    case isValidDomainName(str):
+      format = `&domain=${str}`;
+      break;
+    default:
+      format = "";
   }
-  return `&domain=${chars}`;
+  return format;
+}
+
+function isValidIPv4(addr) {
+  const ipv4Regex =
+    /^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])$/;
+  return ipv4Regex.test(addr);
+}
+
+function isValidDomainName(name) {
+  const domainRegex = /^([a-zA-Z0-9.-]+\.)+[a-zA-Z]{2,}$/;
+  return domainRegex.test(name);
 }
 
 // fetches location data
