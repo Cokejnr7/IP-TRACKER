@@ -149,6 +149,8 @@ div.ip {
 }
 
 
+
+
 @media screen and (min-width: 780px) {
     div.ip {
         background-image: url("images/pattern-bg-desktop.png");
@@ -189,6 +191,13 @@ div.ip {
 
     .label, .data {
         text-align: left;
+    }
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+    .ip-form>button:hover {
+        background-color: var(--Dark-Gray);
     }
 }
 
